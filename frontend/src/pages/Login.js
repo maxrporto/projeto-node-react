@@ -1,18 +1,28 @@
 import React, {useState} from 'react';
 import logo from '../assets/logo.svg'
 import './Login.css';
+import api from '../services/api'
 
 
 export default function Login({history}){
     const [username, setUsername] = useState('');
-
-    //vericando se esta funcionando o meu change
-    function handleSubmit(e) {
+    
+    /*
+    *    Três conceitos do React: Componentes - Estados - Propriedades
+    *    vericando se esta funcionando o meu change
+    */
+    async function handleSubmit(e) {
         e.preventDefault();
 
-        console.log(username);
+        const response = await api.post('/devs', {
+            username, 
+        });
+        
+        //react router dom
+        const { _id } = response.data;
+        //console.log(response);
 
-        history.push('/main');
+        history.push(`/dev/${_id}`);
     }
 
     return(
